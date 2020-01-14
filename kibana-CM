@@ -1,0 +1,14 @@
+###################
+#Kibana config files
+###################
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-cm
+  namespace: k8-elkstack
+data:
+  kibana.yml: |
+    server.host: "0.0.0.0"
+    elasticsearch.hosts: ["http://10.96.191.32:9200"]
+    elasticsearch.preserveHost: true
