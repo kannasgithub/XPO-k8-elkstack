@@ -1,0 +1,21 @@
+##################
+# Service to access kibana from outside the cluster
+##################
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana-svc
+  namespace: k8-elkstack
+  labels:
+    component: kibana
+spec:
+  ports:
+  - name: http
+    port: 5601
+    targetPort: 5601
+    protocol: TCP
+    nodePort: 31968
+  selector:
+    component: kibana
+  type: NodePort
