@@ -1,0 +1,42 @@
+####################
+#deploying kibana as Deployment
+####################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: k8-elkstack
+  labels:
+    component: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: kibana
+  template:
+    metadata:
+      labels:
+        component: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: kannasdocker/elkstack-xpo:kibana-6.8.5
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 1
+            memory: 1Gi
+        volumeMounts:
+        - name: kibana-yml
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+        ports:
+        - containerPort: 5601
+          name: http
+          protocol: TCP
+      volumes:
+      - name: kibana-yml
+        configMap:
+          name: kibana-cm
